@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:valueconverter="clr-namespace:ImageListTest"
+             xmlns:viewmodel="clr-namespace:ImageListTest.ViewModel"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"             
+             mc:Ignorable="d"
+             x:Class="ImageListTest.MainPage">
+    <ContentPage.BindingContext>
+        <viewmodel:OrderItemImageDocuViewModel/>
+    </ContentPage.BindingContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+            <ListView ItemsSource="{Binding OrderItemImages}"
+          HasUnevenRows="true"
+          ItemSelected="OnListViewItemSelected"
+          ItemTapped="OnListViewItemTapped" x:Name="ImagePreviewListView">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="10">
+                                <Grid.Resources>
+                                    <valueconverter:ByteArrayToImageSourceConverter x:Key="SourceConverter" />
+                                </Grid.Resources>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.RowSpan="2"
+                           Source="{Binding ImageDocumentData, Converter={StaticResource SourceConverter}}"
+                           Aspect="AspectFit"
+                           HeightRequest="120"
+                           WidthRequest="120" />
+                                <Label Grid.Column="1"
+                           Text="{Binding DocumentDescription}"
+                           FontAttributes="Bold" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+        <StackLayout Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="End">
+            <Button Text="Remove" x:Name="BtnRemove" Clicked="BtnRemove_Clicked" />
+            <Button Text="Add" x:Name="BtnAdd" Clicked="BtnAdd_Clicked" />
+            <!--<controls:ImageButtonControl
+                Clicked="btnRemove_Clicked"
+                FontSize="30"
+                Glyph="trash-alt"
+                HeightRequest="60"
+                HorizontalOptions="End"/>
+            <controls:ImageButtonControl
+                Clicked="btnAdd_Clicked"
+                FontSize="30"
+                Glyph="plus"
+                HeightRequest="60"
+                HorizontalOptions="End"/>
+            <controls:ImageButtonControl
+                Clicked="btnSave_Clicked"
+                FontSize="30"
+                Glyph="save"
+                HeightRequest="60"
+                HorizontalOptions="End"/>-->
+
+        </StackLayout>
+    </Grid>
+
+</ContentPage>
